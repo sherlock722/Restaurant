@@ -1,26 +1,25 @@
 package restaurant.fjc.com.model;
 
-import android.view.Menu;
 
+import java.io.Serializable;
 /**
  * Created by javier on 9/5/16.
  */
-public class Table {
+public class Table implements Serializable{
 
     private String mName;
-    private int mNumDiners;
+    private int mNumPeople;
     //private Menu mOrders;
 
-    public Table(String name, int numDiners, Menu orders, Float bill) {
+    /*public Table(String name, int numPeople, Menu orders, Float bill) {
         mName = name;
-        mNumDiners = numDiners;
+        mNumPeople = numPeople;
         //mOrders = orders;
-    }
+    }*/
 
-    public Table(String name, int numDiners) {
+    public Table(String name, int  numPeople) {
         mName = name;
-        mNumDiners = numDiners;
-        //mOrders = new Menu();
+        mNumPeople = numPeople;
     }
 
     public String getName() {
@@ -32,11 +31,11 @@ public class Table {
     }
 
     public int getNumDiners() {
-        return mNumDiners;
+        return mNumPeople;
     }
 
     public void setNumDiners(int numDiners) {
-        mNumDiners = numDiners;
+        mNumPeople = numDiners;
     }
 
     /*public Menu getOrders() {

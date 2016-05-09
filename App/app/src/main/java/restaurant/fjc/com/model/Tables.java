@@ -11,8 +11,14 @@ public class Tables {
 
     public Tables() {
         mTables = new ArrayList<Table>();
-    }
 
+        //Añadimos unos ejemplos de mesas
+        mTables.add(new Table("Mesa1",1));
+        mTables.add(new Table("Mesa2",2));
+        mTables.add(new Table("Mesa3",3));
+        mTables.add(new Table("Mesa4",4));
+        mTables.add(new Table("Mesa5",5));
+    }
     public ArrayList<Table> getTables() {
         return mTables;
     }

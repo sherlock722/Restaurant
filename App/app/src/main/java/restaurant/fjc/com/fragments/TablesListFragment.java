@@ -5,8 +5,6 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +21,7 @@ public class TablesListFragment extends Fragment {
 
     //Guardamos una referencia al listener
     private TablesListListener mTablesListListener;
+    //private Tables mTables;
 
 
     public TablesListFragment() {
@@ -43,7 +42,7 @@ public class TablesListFragment extends Fragment {
         final Tables tables = new Tables();
 
         //Las listas se rellenan con un adaptador
-        ArrayAdapter<Table> adapter =
+        final ArrayAdapter<Table> adapter =
                 new ArrayAdapter<Table>(getActivity(), //Contexto
                         android.R.layout.simple_list_item_1, //Como pinta la lista. Cogemos una por defecto que trae android
                         tables.getTables() //Lista de mesas
@@ -69,23 +68,18 @@ public class TablesListFragment extends Fragment {
             }
         });
 
-
-
-
         //Hacemos algo con el FloatingActionButton
-        FloatingActionButton addButton = (FloatingActionButton) root.findViewById(R.id.add_button);
+        /*FloatingActionButton addButton = (FloatingActionButton) root.findViewById(R.id.add_button);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                //Creo un SnackBar
-                Snackbar.make(getView(), "FAB Pulsado", Snackbar.LENGTH_LONG).show();
-
-                //Se llama a otra pantalla para dar de alta una mesa
-                //addTable();
-
+                Snackbar.make(getView(), "Mesa añadida", Snackbar.LENGTH_LONG).show();
+                mTables.addTable(new Table("New_Table", 6));
+                adapter.notifyDataSetChanged();
             }
-        });
+        });*/
+
         return root;
 
     }

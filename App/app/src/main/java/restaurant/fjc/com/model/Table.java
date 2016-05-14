@@ -9,17 +9,18 @@ public class Table implements Serializable{
 
     private String mName;
     private int mNumPeople;
-    //private Menu mOrders;
+    private Menu mMenu;
 
-    /*public Table(String name, int numPeople, Menu orders, Float bill) {
+    public Table(String name, int numPeople, Menu menu) {
         mName = name;
         mNumPeople = numPeople;
-        //mOrders = orders;
-    }*/
+        mMenu = menu;
+    }
 
     public Table(String name, int  numPeople) {
         mName = name;
         mNumPeople = numPeople;
+        mMenu = new Menu();
     }
 
     public String getName() {
@@ -38,16 +39,19 @@ public class Table implements Serializable{
         mNumPeople = numDiners;
     }
 
-    /*public Menu getOrders() {
-        return mOrders;
-    }*/
+    public Menu getMenu() {
+        return mMenu;
+    }
 
-    /*public void setOrders(Menu orders) {
-        mOrders = orders;
-    }*/
+    public void setMenu(Menu menu) {
+        mMenu = menu;
+    }
 
     @Override
+    //Se sobreescribe el método para recuperar el nombre de la mesa
+    //que es lo que se muestra en la lista (vista) de Mesas
     public String toString() {
         return getName();
     }
+
 }

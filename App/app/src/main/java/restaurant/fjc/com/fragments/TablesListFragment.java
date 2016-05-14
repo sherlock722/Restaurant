@@ -38,7 +38,7 @@ public class TablesListFragment extends Fragment {
         //Accedo al ListView
         ListView list = (ListView) root.findViewById(R.id.list_tables);
 
-        //Necesito un modelo con el que darles valores a la vista
+        //Necesito un modelo con el que darles valores a la vista de la lista
         final Tables tables = new Tables();
 
         //Las listas se rellenan con un adaptador
@@ -67,19 +67,6 @@ public class TablesListFragment extends Fragment {
                 }
             }
         });
-
-        //Hacemos algo con el FloatingActionButton
-        /*FloatingActionButton addButton = (FloatingActionButton) root.findViewById(R.id.add_button);
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Snackbar.make(getView(), "Mesa añadida", Snackbar.LENGTH_LONG).show();
-                mTables.addTable(new Table("New_Table", 6));
-                adapter.notifyDataSetChanged();
-            }
-        });*/
-
         return root;
 
     }
@@ -99,7 +86,6 @@ public class TablesListFragment extends Fragment {
         //Mi listener es la actividad (TablesActivity)
         mTablesListListener = (TablesListListener) getActivity();
     }
-
     //En el método OnDetach este fragment no está "enganchado" a la actividad
     @Override
     public void onDetach() {
@@ -107,7 +93,6 @@ public class TablesListFragment extends Fragment {
 
         mTablesListListener = null;
     }
-
 
     //Creo una interfaz para comunicarme con la actividad que contienen a este fragment (TablesActivity)
     //Esta interfaz la implementa la actividad que es quien se quiere enterar de que se ha pulsado la lista

@@ -17,10 +17,15 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name="restaurant.fjc.com.activities.DetailTableActivity">
+
+        <activity
+            android:name="restaurant.fjc.com.activities.DetailTableActivity">
         </activity>
-        <activity android:name="restaurant.fjc.com.activities.MenuListActivity">
+
+        <activity
+            android:name="restaurant.fjc.com.activities.MenuListActivity">
         </activity>
+
     </application>
 
 </manifest>

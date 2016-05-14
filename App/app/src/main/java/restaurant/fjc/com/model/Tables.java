@@ -27,7 +27,7 @@ public class Tables {
     public ArrayList<Table> getTables() {
         return mTables;
     }
-
+    
     public void setTables(ArrayList<Table> tables) {
         mTables = tables;
     }

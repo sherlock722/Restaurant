@@ -1,11 +1,13 @@
 package restaurant.fjc.com.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by javier on 11/5/16.
  */
-public class Menu {
+public class Menu implements Serializable {
+
     private ArrayList<MenuContent> mMenuContents;
 
     public Menu() {
@@ -28,12 +30,12 @@ public class Menu {
         mMenuContents.add(menuContent);
     }
 
-    public float getTotal() {
+    /*public float getTotal() {
         float total = 0;
 
         for (MenuContent menuContent:this.getMenuContents()) {
             total += menuContent.getPrice();
         }
         return total;
-    }
+    }*/
 }

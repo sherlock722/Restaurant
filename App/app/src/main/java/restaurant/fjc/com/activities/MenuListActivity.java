@@ -1,5 +1,6 @@
 package restaurant.fjc.com.activities;
 
+import android.app.FragmentManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -15,7 +16,9 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
+import restaurant.fjc.com.fragments.TablesListFragment;
 import restaurant.fjc.com.model.Menu;
 import restaurant.fjc.com.model.MenuContent;
 import restaurant.fjc.com.restaurant.R;
@@ -25,21 +28,23 @@ public class MenuListActivity extends AppCompatActivity {
     private URL mUrl;
     private ProgressBar mProgress;
     private Menu mMenu;
+    private Menu mAddMenu;
+
     //private ArrayAdapter mMenuArrayAdapter;
     private ArrayAdapter<MenuContent> mMenuArrayAdapter;
+    public static final String EXTRA_LIST_MENU = "restaurant.com.fjc.activities.DetailTableActivity.EXTRA_LIST_MENU";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_list);
-
         //Acceso a las vistas
         //ToolBar
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //Le decimos a nuestra actividad que queremos usar esa vista toolbar como nuestra ToolBar
         //setSupportActionBar(toolbar);
 
-        //Se monta la URL
+        //Se monta la URL y se recupera la información del JSON
         try {
             //mUrl = new URL("http://www.mocky.io/v2/57326b1a0f00007913ead755");
             mUrl = new URL("http://www.mocky.io/v2/571404851000008423a413f4");
@@ -48,9 +53,30 @@ public class MenuListActivity extends AppCompatActivity {
         }
 
         mProgress = (ProgressBar) findViewById(R.id.menu_download_progress);
+        mAddMenu = new Menu();
+        mMenu = (Menu) getIntent().getSerializableExtra(EXTRA_LIST_MENU);
         downloadMenu();
+
+        //Llamo al fragment de la lista del menu
+        //Como construir un fragment de manera dinámica
+        FragmentManager fm = getFragmentManager();
+
+        //Vamos a preguntar si el interfaz que hemos cargado tiene hueco para el TablesListFragment
+        if (findViewById(R.id.fragment_tables_list)!= null) {
+
+            //Pues si que tenemos hueco, por lo que vamos a cargar el fragment del list si no esta cargado
+            if (fm.findFragmentById(R.id.fragment_tables_list)==null) {
+
+                fm.beginTransaction()
+                        .add(R.id.fragment_tables_list, new TablesListFragment())
+                        .commit();
+
+            }
+        }
+
     }
 
+    //Descargar Menu
     private void downloadMenu() {
 
         AsyncTask<URL, Integer, String> menuDownloader = new AsyncTask<URL, Integer, String>() {
@@ -109,17 +135,21 @@ public class MenuListActivity extends AppCompatActivity {
                         JSONObject menuContent = menuContents.getJSONObject(i);
                         String name = menuContent.getString("name");
                         String description = menuContent.getString("description");
+
                         Float price = Float.valueOf(menuContent.getString("price"));
-                        //ArrayList<String> allergens = new ArrayList<>();
-                        //JSONArray jsonAllergens = menuContent.getJSONArray("allergens");
-                        /*for (int j = 0; j < jsonAllergens.length(); j++) {
+
+                        ArrayList<String> allergens = new ArrayList<>();
+
+                        JSONArray jsonAllergens = menuContent.getJSONArray("allergens");
+
+                        for (int j = 0; j < jsonAllergens.length(); j++) {
                             allergens.add(jsonAllergens.getString(j));
-                        }*/
+                        }
 
                         String imageURL = menuContent.getString("image");
 
-                        //mMenu.addMenuContent(new MenuContent(name, description, price, imageURL));
-                        //mMenuArrayAdapter.notifyDataSetChanged();
+                        mMenu.addMenuContent(new MenuContent(name, description, price, allergens, imageURL));
+                        mMenuArrayAdapter.notifyDataSetChanged();
                     }
 
                     Log.v("JSON", "JSON Parsed");
@@ -131,7 +161,6 @@ public class MenuListActivity extends AppCompatActivity {
                 mProgress.setAlpha(0);
             }
         };
-
         menuDownloader.execute(mUrl);
     }
 }

@@ -1,5 +1,7 @@
 package restaurant.fjc.com.model;
 
+import java.util.ArrayList;
+
 /**
  * Created by javier on 11/5/16.
  */
@@ -8,13 +10,33 @@ public class MenuContent {
     private String mName;
     private String mDescription;
     private Float mPrice;
+    private ArrayList<String> mAllergens;
     private String mImageURL;
+    private String mNotes;
 
-    public MenuContent(String name, String description, Float price, String imageURL) {
+    public MenuContent(String name,
+                       String description,
+                       Float price, ArrayList<String> allergens,
+                       String imageURL,
+                       String notes) {
         mName = name;
         mDescription = description;
         mPrice = price;
+        mAllergens = allergens;
         mImageURL = imageURL;
+        mNotes = notes;
+    }
+
+    public MenuContent(String name, String description,
+                       Float price,
+                       ArrayList<String> allergens,
+                       String imageURL) {
+        mName = name;
+        mDescription = description;
+        mPrice = price;
+        mAllergens = allergens;
+        mImageURL = imageURL;
+        mNotes = "";
     }
 
     public String getName() {
@@ -36,7 +58,6 @@ public class MenuContent {
     public Float getPrice() {
         return mPrice;
     }
-
     public void setPrice(Float price) {
         mPrice = price;
     }

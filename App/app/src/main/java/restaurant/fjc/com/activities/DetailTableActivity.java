@@ -50,22 +50,6 @@ public class DetailTableActivity extends AppCompatActivity {
             startActivityForResult(intent, EXTRA_VIEW_MENU);
     }
 
-    /*@Override
-    //Llamada cuando la actividad va a empezar a interactuar con el usuario
-    protected void onResume() {
-        super.onResume();
-
-        ListView ordersList = (ListView) findViewById(R.id.list_menucontent);
-
-        mMenuContentArrayAdapter = new ArrayAdapter<MenuContent>(
-                this,
-                android.R.layout.simple_list_item_1,
-                mTable.getMenu().getMenuContents()
-        );
-
-        ordersList.setAdapter(mMenuContentArrayAdapter);
-    }*/
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

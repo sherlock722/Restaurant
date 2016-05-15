@@ -26,7 +26,7 @@ public class Menu implements Serializable {
     public void setMenuContents(ArrayList<MenuContent> menuContents) {
         mMenuContents = menuContents;
     }
-
+    
     public void addMenuContent(MenuContent menuContent) {
 
         mMenuContents.add(menuContent);

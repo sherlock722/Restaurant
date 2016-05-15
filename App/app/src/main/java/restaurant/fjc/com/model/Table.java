@@ -46,7 +46,6 @@ public class Table implements Serializable{
     public void setMenu(Menu menu) {
         mMenu = menu;
     }
-
     @Override
     //Se sobreescribe el método para recuperar el nombre de la mesa
     //que es lo que se muestra en la lista (vista) de Mesas

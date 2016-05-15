@@ -14,7 +14,7 @@
     tools:showIn="@layout/activity_detail_table">
 
     <ListView
-        android:id="@+id/list_orders"
+        android:id="@+id/list_menucontent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     </ListView>

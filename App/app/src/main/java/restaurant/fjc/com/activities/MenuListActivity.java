@@ -50,7 +50,7 @@ public class MenuListActivity extends AppCompatActivity implements AddContentMen
 
         //Se monta la URL y se recupera la información del JSON
         try {
-            mUrl = new URL("http://www.mocky.io/v2/57389960110000c92a05cf9f");
+            mUrl = new URL("http://www.mocky.io/v2/57389d061100004d2b05cfa1");
         } catch (MalformedURLException ex) {
             ex.printStackTrace();
         }
@@ -69,6 +69,7 @@ public class MenuListActivity extends AppCompatActivity implements AddContentMen
                 mMenu.getMenuContents()
         );
 
+
         gridMenu.setAdapter(mMenuArrayAdapter);
 
         gridMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -80,12 +81,13 @@ public class MenuListActivity extends AppCompatActivity implements AddContentMen
         });
 
     }
+
     private void viewContentMenu(MenuContent selected, int position) {
 
         Bundle arguments = new Bundle();
-        arguments.putSerializable("ContentMenu", selected);
+        arguments.putSerializable("contentMenu", selected);
 
-        AddContentMenuFragment.newInstance(arguments).show(getSupportFragmentManager(), "new");
+        AddContentMenuFragment.newInstance(arguments).show(getSupportFragmentManager(), "newContentMenu");
     }
 
     //Descargar Menu
@@ -190,7 +192,7 @@ public class MenuListActivity extends AppCompatActivity implements AddContentMen
         } else {
             setResult(RESULT_CANCELED);
         }
-        Snackbar.make(findViewById(android.R.id.content), newMenuContent.getName(), Snackbar.LENGTH_LONG).show();
+        Snackbar.make(findViewById(android.R.id.content), "Se añade " + newMenuContent.getName(), Snackbar.LENGTH_LONG).show();
 
     }
 

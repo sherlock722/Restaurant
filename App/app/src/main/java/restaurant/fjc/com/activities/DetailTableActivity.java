@@ -19,7 +19,7 @@ public class DetailTableActivity extends AppCompatActivity {
     public static final String EXTRA_TABLE = "restaurant.com.fjc.activities.DetailTableActivity.EXTRA_TABLE";
     public static final int EXTRA_VIEW_MENU = 1;
     private Table mTable;
-    private ArrayAdapter<MenuContent> mOrdersArrayAdapter;
+    private ArrayAdapter<MenuContent> mMenuContentArrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,15 +54,16 @@ public class DetailTableActivity extends AppCompatActivity {
     //Llamada cuando la actividad va a empezar a interactuar con el usuario
     protected void onResume() {
         super.onResume();
-        ListView ordersList = (ListView) findViewById(R.id.list_orders);
 
-        mOrdersArrayAdapter = new ArrayAdapter<MenuContent>(
+        ListView ordersList = (ListView) findViewById(R.id.list_menucontent);
+
+        mMenuContentArrayAdapter = new ArrayAdapter<MenuContent>(
                 this,
                 android.R.layout.simple_list_item_1,
                 mTable.getMenu().getMenuContents()
         );
 
-        ordersList.setAdapter(mOrdersArrayAdapter);
+        ordersList.setAdapter(mMenuContentArrayAdapter);
     }*/
 
     @Override
@@ -73,13 +74,17 @@ public class DetailTableActivity extends AppCompatActivity {
 
             if (resultCode == RESULT_OK) {
 
-                //Actualizamos la mesa con el menu
-                Menu updatedMenu = (Menu) data.getSerializableExtra(EXTRA_TABLE);
-                mTable.setMenu(updatedMenu);
+                //Actualizamos la mesa con el contenido del menu seleccionado
+                Menu menu = (Menu) data.getSerializableExtra(EXTRA_TABLE);
+                //Log.v("MENU", String.valueOf(menu.getMenuContents().size()));
+
+                //Se añade la seleccion realizada a la  mesa como Menu
+                mTable.setMenu(menu);
 
                 //Actualizamos el adaptador para que esté informado
-                mOrdersArrayAdapter.notifyDataSetChanged();
+                //mMenuContentArrayAdapter.notifyDataSetChanged();
                 Intent intent = new Intent();
+
                 if (mTable != null) {
 
                     intent.putExtra(TablesActivity.EXTRA_TABLE_UPDATED, mTable);
@@ -92,6 +97,5 @@ public class DetailTableActivity extends AppCompatActivity {
             }
         }
     }
-
 
 }

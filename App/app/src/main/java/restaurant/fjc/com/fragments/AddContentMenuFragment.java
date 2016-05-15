@@ -27,14 +27,14 @@ import restaurant.fjc.com.restaurant.R;
  */
 public class AddContentMenuFragment extends DialogFragment {
 
-    private static final String TAG = "OnAddMenuContentDialogFragmentListener";
     private OnAddMenuContentDialogFragmentListener mListener;
     private Bitmap mBitmap;
     private ImageView mImage;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        return super.onCreateDialog(savedInstanceState);
+
+        return createAddMenuContentDialog();
     }
 
     public static AddContentMenuFragment newInstance(Bundle arguments) {
@@ -53,11 +53,11 @@ public class AddContentMenuFragment extends DialogFragment {
         try {
             mListener = (OnAddMenuContentDialogFragmentListener) activity;
         } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString() + " no implementó OnAddDishDialogFragmentListener");
+            throw new ClassCastException(activity.toString());
         }
     }
 
-    private Dialog createAddDishDialog() {
+    private Dialog createAddMenuContentDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
@@ -66,42 +66,31 @@ public class AddContentMenuFragment extends DialogFragment {
 
         builder.setView(v);
 
-        final MenuContent selected = (MenuContent) getArguments().getSerializable("new");
+        final MenuContent selected = (MenuContent) getArguments().getSerializable("contentMenu");
 
-        Button addDish = (Button) v.findViewById(R.id.dish_add_button);
-        Button cancel = (Button) v.findViewById(R.id.dish_cancel_button);
+        Button addDish = (Button) v.findViewById(R.id.add_button);
+        Button cancel = (Button) v.findViewById(R.id.cancel_button);
 
-        mImage = (ImageView) v.findViewById(R.id.dish_image);
-        new LoadImage().execute(selected.getImageURL());
-        TextView title = (TextView) v.findViewById(R.id.dish_title_text);
-        title.setText(selected.getName());
-        TextView description = (TextView) v.findViewById(R.id.dish_description_text);
+        //Se carga la imagen
+        mImage = (ImageView) v.findViewById(R.id.contentMenu_image);
+        new MergeImage().execute(selected.getImageURL());
+
+        //Se carga el nombre del plato
+        TextView name = (TextView) v.findViewById(R.id.menuContent_text);
+        name.setText(selected.getName());
+
+        //Se carga la descripcion
+        TextView description = (TextView) v.findViewById(R.id.menuContent_description);
         description.setText(selected.getDescription());
-        //Log.v(TAG, selected.getAllergens().toString());
 
-        ImageView crustacean = (ImageView) v.findViewById(R.id.crustacean_icon);
-        if (selected.getAllergens().contains("CRUSTACEAN")) { crustacean.setImageAlpha(255); } else { crustacean.setImageAlpha(25); }
-        final ImageView egg = (ImageView) v.findViewById(R.id.egg_icon);
-        if (selected.getAllergens().contains("EGG")) { egg.setImageAlpha(255); } else { egg.setImageAlpha(25); }
-        ImageView fish = (ImageView) v.findViewById(R.id.fish_icon);
-        if (selected.getAllergens().toString().contains("FISH")) { fish.setImageAlpha(255); } else { fish.setImageAlpha(25); }
-        ImageView milk = (ImageView) v.findViewById(R.id.milk_icon);
-        if (selected.getAllergens().contains("MILK")) { milk.setImageAlpha(255); } else { milk.setImageAlpha(25); }
-        ImageView peanut = (ImageView) v.findViewById(R.id.peanut_icon);
-        if (selected.getAllergens().contains("PEANUT")) { peanut.setImageAlpha(255); } else { peanut.setImageAlpha(25); }
-        ImageView soya = (ImageView) v.findViewById(R.id.soya_icon);
-        if (selected.getAllergens().contains("SOYA")) { soya.setImageAlpha(255); } else { soya.setImageAlpha(25); }
-        ImageView wheat = (ImageView) v.findViewById(R.id.wheat_icon);
-        if (selected.getAllergens().contains("WHEAT")) { wheat.setImageAlpha(255); } else { wheat.setImageAlpha(25); }
-
-        final EditText notes = (EditText) v.findViewById(R.id.dish_notes_input);
+        //Campo para las notas
+        final EditText notes = (EditText) v.findViewById(R.id.menuContent_notes);
 
         addDish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MenuContent newOrder = selected;
-                //newOrder.setNotes(notes.getText().toString());
-                mListener.onAddMenuContentButton(newOrder);
+                MenuContent menuContent = selected;
+                mListener.onAddMenuContentButton(menuContent);
                 dismiss();
             }
         });
@@ -122,7 +111,8 @@ public class AddContentMenuFragment extends DialogFragment {
         void onCancelButton();
     }
 
-    private class LoadImage extends AsyncTask<String, String, Bitmap> {
+    //Clase para cargar la imagen
+    private class MergeImage extends AsyncTask<String, String, Bitmap> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();

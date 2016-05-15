@@ -4,9 +4,11 @@ import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.ArrayAdapter;
 
 import restaurant.fjc.com.fragments.TablesListFragment;
 import restaurant.fjc.com.model.Table;
+import restaurant.fjc.com.model.Tables;
 import restaurant.fjc.com.restaurant.R;
 
 public class TablesActivity extends AppCompatActivity implements TablesListFragment.TablesListListener{
@@ -14,16 +16,14 @@ public class TablesActivity extends AppCompatActivity implements TablesListFragm
 
     public static int SELECTED_TABLE = 1;
     public static final String EXTRA_TABLE_UPDATED = "restaurant.com.fjc.activities.TablesActivity.EXTRA_TABLE_UPDATED";
-    //private Tables mTables;
+    private ArrayAdapter<Table> mTableArrayAdapter;
+    private Tables mTables;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tables_list);
-
-        //Creo un Tables
-        //mTables = new Tables();
 
         //Como construir un fragment de manera dinámica
         FragmentManager fm = getFragmentManager();
@@ -41,6 +41,7 @@ public class TablesActivity extends AppCompatActivity implements TablesListFragm
             }
         }
     }
+
     //Aquí va el método del listener que tiene que implementar esta clase
     @Override
     public void onTableSelected(Table table, int position) {

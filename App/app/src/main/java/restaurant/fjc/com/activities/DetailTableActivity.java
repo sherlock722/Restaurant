@@ -38,13 +38,10 @@ public class DetailTableActivity extends AppCompatActivity {
         addMenuButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 addMenu();
             }
         });
-
-
-
-
 
     }
     private void addMenu() {
@@ -82,11 +79,11 @@ public class DetailTableActivity extends AppCompatActivity {
 
                 //Actualizamos el adaptador para que esté informado
                 mOrdersArrayAdapter.notifyDataSetChanged();
-                Intent returnIntent = new Intent();
+                Intent intent = new Intent();
                 if (mTable != null) {
 
-                    returnIntent.putExtra(TablesActivity.EXTRA_TABLE_UPDATED, mTable);
-                    setResult(RESULT_OK, returnIntent);
+                    intent.putExtra(TablesActivity.EXTRA_TABLE_UPDATED, mTable);
+                    setResult(RESULT_OK, intent);
 
                 } else {
 

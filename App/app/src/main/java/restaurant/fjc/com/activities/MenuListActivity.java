@@ -1,11 +1,15 @@
 package restaurant.fjc.com.activities;
 
-import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.GridView;
 import android.widget.ProgressBar;
 
 import org.json.JSONArray;
@@ -18,12 +22,12 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
-import restaurant.fjc.com.fragments.TablesListFragment;
+import restaurant.fjc.com.fragments.AddContentMenuFragment;
 import restaurant.fjc.com.model.Menu;
 import restaurant.fjc.com.model.MenuContent;
 import restaurant.fjc.com.restaurant.R;
 
-public class MenuListActivity extends AppCompatActivity {
+public class MenuListActivity extends AppCompatActivity implements AddContentMenuFragment.OnAddMenuContentDialogFragmentListener{
 
     private URL mUrl;
     private ProgressBar mProgress;
@@ -46,8 +50,7 @@ public class MenuListActivity extends AppCompatActivity {
 
         //Se monta la URL y se recupera la información del JSON
         try {
-            //mUrl = new URL("http://www.mocky.io/v2/57326b1a0f00007913ead755");
-            mUrl = new URL("http://www.mocky.io/v2/571404851000008423a413f4");
+            mUrl = new URL("http://www.mocky.io/v2/57389960110000c92a05cf9f");
         } catch (MalformedURLException ex) {
             ex.printStackTrace();
         }
@@ -57,23 +60,32 @@ public class MenuListActivity extends AppCompatActivity {
         mMenu = (Menu) getIntent().getSerializableExtra(EXTRA_LIST_MENU);
         downloadMenu();
 
-        //Llamo al fragment de la lista del menu
-        //Como construir un fragment de manera dinámica
-        FragmentManager fm = getFragmentManager();
+        //Creo una referencia al GridMenu y le asigno un Listener
+        GridView gridMenu = (GridView) findViewById(R.id.gridView);
 
-        //Vamos a preguntar si el interfaz que hemos cargado tiene hueco para el TablesListFragment
-        if (findViewById(R.id.fragment_tables_list)!= null) {
+        mMenuArrayAdapter = new ArrayAdapter<MenuContent>(
+                this,
+                android.R.layout.simple_list_item_1,
+                mMenu.getMenuContents()
+        );
 
-            //Pues si que tenemos hueco, por lo que vamos a cargar el fragment del list si no esta cargado
-            if (fm.findFragmentById(R.id.fragment_tables_list)==null) {
+        gridMenu.setAdapter(mMenuArrayAdapter);
 
-                fm.beginTransaction()
-                        .add(R.id.fragment_tables_list, new TablesListFragment())
-                        .commit();
-
+        gridMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                MenuContent selected = mMenu.getMenuContents().get(position);
+                viewContentMenu(selected, position);
             }
-        }
+        });
 
+    }
+    private void viewContentMenu(MenuContent selected, int position) {
+
+        Bundle arguments = new Bundle();
+        arguments.putSerializable("ContentMenu", selected);
+
+        AddContentMenuFragment.newInstance(arguments).show(getSupportFragmentManager(), "new");
     }
 
     //Descargar Menu
@@ -162,5 +174,28 @@ public class MenuListActivity extends AppCompatActivity {
             }
         };
         menuDownloader.execute(mUrl);
+    }
+
+    //Metodos de la interfaz
+    @Override
+    public void onAddMenuContentButton(MenuContent newMenuContent) {
+
+        mAddMenu.addMenuContent(newMenuContent);
+        Intent intent = new Intent();
+        if (mAddMenu != null) {
+
+            intent.putExtra(DetailTableActivity.EXTRA_TABLE, mAddMenu);
+            setResult(RESULT_OK, intent);
+
+        } else {
+            setResult(RESULT_CANCELED);
+        }
+        Snackbar.make(findViewById(android.R.id.content), newMenuContent.getName(), Snackbar.LENGTH_LONG).show();
+
+    }
+
+    @Override
+    public void onCancelButton() {
+
     }
 }

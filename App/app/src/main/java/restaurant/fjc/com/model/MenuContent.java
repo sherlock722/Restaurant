@@ -1,11 +1,12 @@
 package restaurant.fjc.com.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by javier on 11/5/16.
  */
-public class MenuContent {
+public class MenuContent implements Serializable{
 
     private String mName;
     private String mDescription;
@@ -68,5 +69,18 @@ public class MenuContent {
 
     public void setImageURL(String imageURL) {
         mImageURL = imageURL;
+    }
+
+    public ArrayList<String> getAllergens() {
+        return mAllergens;
+    }
+
+    public void setAllergens(ArrayList<String> allergens) {
+        mAllergens = allergens;
+    }
+
+    @Override
+    public String toString() {
+        return getName();
     }
 }

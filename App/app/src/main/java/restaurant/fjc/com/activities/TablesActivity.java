@@ -13,7 +13,7 @@ public class TablesActivity extends AppCompatActivity implements TablesListFragm
 
 
     public static int SELECTED_TABLE = 1;
-    public static final String EXTRA_TABLE_UPDATED = "es.jorgifumi.camarerooo.EXTRA_TABLE_UPDATED";
+    public static final String EXTRA_TABLE_UPDATED = "restaurant.com.fjc.activities.TablesActivity.EXTRA_TABLE_UPDATED";
     //private Tables mTables;
 
 
